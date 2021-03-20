@@ -88,7 +88,14 @@ class TranslatorScreen extends StatelessWidget {
                       Text(
                         state.translations[index].translatedText,
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      )
+                      ),
+                      if (state.translations[index].detectedLanguage != null)
+                        SizedBox(height: 16,),
+                      if (state.translations[index].detectedLanguage != null)
+                        Text(
+                          'Detected language: ${state.translations[index].detectedLanguage!.name}',
+                          style: TextStyle(color: Colors.grey),
+                        )
                     ],
                   ),
                 )
