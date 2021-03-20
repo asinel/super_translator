@@ -33,9 +33,11 @@ class TranslatorScreen extends StatelessWidget {
                           isExpanded: true,
                         )
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Icon(Icons.compare_arrows),
+                      IconButton(
+                        icon: Icon(Icons.compare_arrows),
+                        onPressed: state.fromLanguage.code != 'auto' ?
+                            () { context.read<TranslatorCubit>().swapLanguages(); }
+                            : null,
                       ),
                       Expanded(
                         child: DropdownButton<Language>(

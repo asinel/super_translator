@@ -17,6 +17,8 @@ class TranslatorCubit extends Cubit<TranslatorState> {
 
   void changeToLanguage(Language newLanguage) => emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: newLanguage, text: state.text, translations: state.translations));
 
+  void swapLanguages() => emit(TranslatorState(fromLanguage: state.toLanguage, toLanguage: state.fromLanguage, text: state.text, translations: state.translations));
+
   void submitText(String text) async {
     try {
       var translated = await translatorRepository.translate(text, state.fromLanguage, state.toLanguage);
