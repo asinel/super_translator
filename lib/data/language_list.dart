@@ -4,7 +4,7 @@ class LanguageList {
 
   static final List<Language> listWithoutDetect = [
     Language('en', 'English'),
-    Language('cz', 'Czech'),
+    Language('cs', 'Czech'),
     Language('ru', 'Russian'),
   ];
 

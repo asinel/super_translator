@@ -17,10 +17,12 @@ class TranslatorCubit extends Cubit<TranslatorState> {
 
   void changeToLanguage(Language newLanguage) => emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: newLanguage, text: state.text, translations: state.translations));
 
-  void submitText(String text) {
-    translatorRepository.translate(text, state.fromLanguage, state.toLanguage)
-      .then((value) {
-        emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: state.toLanguage, text: '', translations: [value, ...state.translations]));
-      });
+  void submitText(String text) async {
+    try {
+      var translated = await translatorRepository.translate(text, state.fromLanguage, state.toLanguage);
+      emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: state.toLanguage, text: '', translations: [translated, ...state.translations]));
+    } catch (e) {
+      emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: state.toLanguage, text: '', translations: [Translation(text, 'Error', state.fromLanguage, state.toLanguage), ...state.translations]));
+    }
   }
 }
