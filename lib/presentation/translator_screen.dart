@@ -27,7 +27,7 @@ class TranslatorScreen extends StatelessWidget {
                         child: DropdownButton<Language>(
                           value: state.fromLanguage,
                           onChanged: (newValue) {
-                            context.read<TranslatorCubit>().changeFromLanguage(newValue);
+                            context.read<TranslatorCubit>().changeFromLanguage(newValue!);
                           },
                           items: LanguageList.listWithDetect.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
                           isExpanded: true,
@@ -43,7 +43,7 @@ class TranslatorScreen extends StatelessWidget {
                         child: DropdownButton<Language>(
                           value: state.toLanguage,
                           onChanged: (newValue) {
-                            context.read<TranslatorCubit>().changeToLanguage(newValue);
+                            context.read<TranslatorCubit>().changeToLanguage(newValue!);
                           },
                           items: LanguageList.listWithoutDetect.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
                           isExpanded: true,

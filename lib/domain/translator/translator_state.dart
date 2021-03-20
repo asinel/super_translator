@@ -7,7 +7,7 @@ class TranslatorState extends Equatable {
   final String text;
   final List<Translation> translations;
 
-  TranslatorState({this.fromLanguage, this.toLanguage, this.text, this.translations});
+  TranslatorState({required this.fromLanguage, required this.toLanguage, required this.text, required this.translations});
 
   @override
   List<Object> get props => [fromLanguage, toLanguage, text, translations];

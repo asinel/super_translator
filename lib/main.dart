@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiRepositoryProvider(
         providers: [
-          RepositoryProvider<ITranslatorRepository>(create: (context) => GoogleTranslatorRepository('https://translation.googleapis.com', DotEnv.env['GOOGLE_API_KEY']))
+          RepositoryProvider<ITranslatorRepository>(create: (context) => GoogleTranslatorRepository('https://translation.googleapis.com', DotEnv.env['GOOGLE_API_KEY']!))
         ],
         child: MultiBlocProvider(
           providers: [

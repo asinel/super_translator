@@ -28,9 +28,10 @@ class GoogleTranslatorRepository extends ITranslatorRepository {
     if (response.statusCode == 200) {
       var translations = jsonDecode(response.body)['data']['translations'];
       var translatedText = translations[0]['translatedText'] as String;
-      return Translation(text, translatedText, from, to);
+      var detectedLanguage = translations[0]['detectedSourceLanguage'] as String?;
+      return Translation(text, translatedText, detectedLanguage: detectedLanguage != null ? Language(detectedLanguage, detectedLanguage) : null);
     } else {
-      throw HttpException(response.reasonPhrase, uri: response.request.url);
+      throw HttpException(response.reasonPhrase ?? 'Unknown error', uri: response.request?.url);
     }
   }
 
