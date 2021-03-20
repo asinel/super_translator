@@ -1,14 +1,7 @@
 part of 'translator_cubit.dart';
 
-class TranslatorState extends Equatable {
+@freezed
+class TranslatorState with _$TranslatorState {
 
-  final Language fromLanguage;
-  final Language toLanguage;
-  final String text;
-  final List<Translation> translations;
-
-  TranslatorState({required this.fromLanguage, required this.toLanguage, required this.text, required this.translations});
-
-  @override
-  List<Object> get props => [fromLanguage, toLanguage, text, translations];
+  factory TranslatorState({required Language fromLanguage, required Language toLanguage, required String text, required List<Translation> translations}) = _TranslatorState;
 }

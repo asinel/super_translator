@@ -20,12 +20,14 @@ dependencies:
   sqlite3_flutter_libs: ^0.4.1
   path_provider: ^2.0.1
   path: ^1.8.0
+  freezed_annotation: ^0.14.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   moor_generator: ^4.2.0
   build_runner: ^1.12.2
+  freezed: ^0.14.1+1
 
 flutter:
   uses-material-design: true

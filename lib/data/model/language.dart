@@ -1,11 +1,9 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Language extends Equatable {
-  final String code;
-  final String name;
+part 'language.freezed.dart';
 
-  Language(this.code, this.name);
+@freezed
+class Language with _$Language {
 
-  @override
-  List<Object> get props => [code, name];
+  factory Language(String code, String name) = _Language;
 }

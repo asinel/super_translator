@@ -1,10 +1,11 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'language.dart';
 
-class Translation {
-  final String initialText;
-  final String translatedText;
-  final Language? detectedLanguage;
-  final int? favoriteId;
+part 'translation.freezed.dart';
 
-  Translation(this.initialText, this.translatedText, { this.detectedLanguage, this.favoriteId });
+@freezed
+class Translation with _$Translation {
+
+  factory Translation(String initialText, String translatedText, {Language? detectedLanguage, int? favoriteId}) = _Translation;
 }
