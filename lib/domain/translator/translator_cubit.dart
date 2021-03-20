@@ -17,6 +17,10 @@ class TranslatorCubit extends Cubit<TranslatorState> {
 
   void changeToLanguage(Language newLanguage) => emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: newLanguage, text: state.text, translations: state.translations));
 
-  void submitText(String text) => translatorRepository.translate(text, state.fromLanguage, state.toLanguage)
-      .then((value) => emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: state.toLanguage, text: '', translations: state.translations..add(value))));
+  void submitText(String text) {
+    translatorRepository.translate(text, state.fromLanguage, state.toLanguage)
+      .then((value) {
+        emit(TranslatorState(fromLanguage: state.fromLanguage, toLanguage: state.toLanguage, text: '', translations: [value, ...state.translations]));
+      });
+  }
 }

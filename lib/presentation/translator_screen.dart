@@ -11,7 +11,6 @@ class TranslatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TranslatorCubit, TranslatorState>(
-      listenWhen: (context, state) => state.text.isEmpty,
       listener: (context, state) {
         _textController.text = state.text;
       },
@@ -63,9 +62,33 @@ class TranslatorScreen extends StatelessWidget {
               ),
             ),
           ),
-          Text('Translations'),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Text('Translations', style: TextStyle(color: Colors.grey)),
+          ),
           Expanded(
-            child: ListView(),
+            child: ListView.builder(
+              itemCount: state.translations.length,
+              itemBuilder: (context, index) => Card(
+                child: Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        state.translations[index].initialText,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(height: 8,),
+                      Text(
+                        state.translations[index].translatedText,
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                )
+              )
+            ),
           )
         ],
       ),
