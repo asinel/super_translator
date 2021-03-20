@@ -26,9 +26,21 @@ class TranslatorCubit extends Cubit<TranslatorState> {
     });
   }
 
-  void changeFromLanguage(Language newLanguage) => emit(state.copyWith(fromLanguage: newLanguage));
+  void changeFromLanguage(Language newLanguage) {
+    if (newLanguage == state.toLanguage) {
+      swapLanguages();
+    } else {
+      emit(state.copyWith(fromLanguage: newLanguage));
+    }
+  }
 
-  void changeToLanguage(Language newLanguage) => emit(state.copyWith(toLanguage: newLanguage));
+  void changeToLanguage(Language newLanguage) {
+    if (newLanguage == state.fromLanguage) {
+      swapLanguages();
+    } else {
+      emit(state.copyWith(toLanguage: newLanguage));
+    }
+  }
 
   void swapLanguages() => emit(state.copyWith(fromLanguage: state.toLanguage, toLanguage: state.fromLanguage));
 
