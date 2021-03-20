@@ -1,0 +1,6 @@
+package cz.sinelnikov.super_translator
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
