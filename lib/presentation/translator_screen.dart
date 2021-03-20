@@ -4,6 +4,8 @@ import 'package:super_translator/data/language_list.dart';
 import 'package:super_translator/data/model/language.dart';
 import 'package:super_translator/domain/translator/translator_cubit.dart';
 
+import 'widgets/translation_card.dart';
+
 class TranslatorScreen extends StatelessWidget {
 
   final TextEditingController _textController = TextEditingController();
@@ -75,31 +77,18 @@ class TranslatorScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: state.translations.length,
-              itemBuilder: (context, index) => Card(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        state.translations[index].initialText,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(height: 8,),
-                      Text(
-                        state.translations[index].translatedText,
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      if (state.translations[index].detectedLanguage != null)
-                        SizedBox(height: 16,),
-                      if (state.translations[index].detectedLanguage != null)
-                        Text(
-                          'Detected language: ${state.translations[index].detectedLanguage!.name}',
-                          style: TextStyle(color: Colors.grey),
-                        )
-                    ],
-                  ),
-                )
+              itemBuilder: (context, index) => TranslationCard(
+                initialText: state.translations[index].initialText,
+                translatedText: state.translations[index].translatedText,
+                detectedLanguage: state.translations[index].detectedLanguage,
+                isFavorite: state.translations[index].favoriteId != null,
+                onPressed: () {
+                  if (state.translations[index].favoriteId == null) {
+                    context.read<TranslatorCubit>().addToFavorites(index);
+                  } else {
+                    context.read<TranslatorCubit>().removeFromFavorites(index);
+                  }
+                }
               )
             ),
           )
