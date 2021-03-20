@@ -11,6 +11,7 @@ class TranslatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TranslatorCubit, TranslatorState>(
+      listenWhen: (context, state) => _textController.text != state.text,
       listener: (context, state) {
         _textController.text = state.text;
       },
