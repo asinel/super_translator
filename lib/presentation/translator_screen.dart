@@ -56,6 +56,9 @@ class TranslatorScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: 'Enter the text to translate'
                     ),
+                    onChanged: (text) {
+                      context.read<TranslatorCubit>().textChanged(text);
+                    },
                     onSubmitted: (text) {
                       context.read<TranslatorCubit>().submitText(text);
                     },
