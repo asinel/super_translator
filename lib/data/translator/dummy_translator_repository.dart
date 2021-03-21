@@ -6,6 +6,7 @@ class DummyTranslatorRepository extends ITranslatorRepository {
 
   @override
   Future<List<Language>> getSupportedLanguages() async {
+    await Future.delayed(Duration(seconds: 3));
     return [
       Language('en', 'English'),
       Language('cs', 'Czech'),

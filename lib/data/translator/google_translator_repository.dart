@@ -15,12 +15,15 @@ class GoogleTranslatorRepository extends ITranslatorRepository {
 
   @override
   Future<List<Language>> getSupportedLanguages() async {
-    await Future.delayed(Duration(seconds: 3));
-    return [
-      Language('en', 'English'),
-      Language('cs', 'Czech'),
-      Language('ru', 'Russian'),
-    ];
+    var response = await http.get(
+      Uri.parse('$baseUrl/language/translate/v2/languages?target=en&key=$apiKey'),
+    );
+    if (response.statusCode == 200) {
+      var languages = jsonDecode(response.body)['data']['languages'] as List<dynamic>;
+      return languages.map((e) => Language(e['language'], e['name'])).toList();
+    } else {
+      throw HttpException(response.reasonPhrase ?? 'Unknown error', uri: response.request?.url);
+    }
   }
 
   @override
