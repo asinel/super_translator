@@ -23,7 +23,7 @@ class _$TranslatorStateTearOff {
       required Language fromLanguage,
       required Language toLanguage,
       required String text,
-      required List<Translation> translations}) {
+      required List<Loadable<Translation>> translations}) {
     return _TranslatorState(
       supportedLanguages: supportedLanguages,
       isLoading: isLoading,
@@ -47,7 +47,8 @@ mixin _$TranslatorState {
   Language get fromLanguage => throw _privateConstructorUsedError;
   Language get toLanguage => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
-  List<Translation> get translations => throw _privateConstructorUsedError;
+  List<Loadable<Translation>> get translations =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TranslatorStateCopyWith<TranslatorState> get copyWith =>
@@ -66,7 +67,7 @@ abstract class $TranslatorStateCopyWith<$Res> {
       Language fromLanguage,
       Language toLanguage,
       String text,
-      List<Translation> translations});
+      List<Loadable<Translation>> translations});
 
   $LanguageCopyWith<$Res> get fromLanguage;
   $LanguageCopyWith<$Res> get toLanguage;
@@ -119,7 +120,7 @@ class _$TranslatorStateCopyWithImpl<$Res>
       translations: translations == freezed
           ? _value.translations
           : translations // ignore: cast_nullable_to_non_nullable
-              as List<Translation>,
+              as List<Loadable<Translation>>,
     ));
   }
 
@@ -152,7 +153,7 @@ abstract class _$TranslatorStateCopyWith<$Res>
       Language fromLanguage,
       Language toLanguage,
       String text,
-      List<Translation> translations});
+      List<Loadable<Translation>> translations});
 
   @override
   $LanguageCopyWith<$Res> get fromLanguage;
@@ -209,7 +210,7 @@ class __$TranslatorStateCopyWithImpl<$Res>
       translations: translations == freezed
           ? _value.translations
           : translations // ignore: cast_nullable_to_non_nullable
-              as List<Translation>,
+              as List<Loadable<Translation>>,
     ));
   }
 }
@@ -238,7 +239,7 @@ class _$_TranslatorState implements _TranslatorState {
   @override
   final String text;
   @override
-  final List<Translation> translations;
+  final List<Loadable<Translation>> translations;
 
   @override
   String toString() {
@@ -295,7 +296,7 @@ abstract class _TranslatorState implements TranslatorState {
       required Language fromLanguage,
       required Language toLanguage,
       required String text,
-      required List<Translation> translations}) = _$_TranslatorState;
+      required List<Loadable<Translation>> translations}) = _$_TranslatorState;
 
   @override
   List<Language> get supportedLanguages => throw _privateConstructorUsedError;
@@ -310,7 +311,8 @@ abstract class _TranslatorState implements TranslatorState {
   @override
   String get text => throw _privateConstructorUsedError;
   @override
-  List<Translation> get translations => throw _privateConstructorUsedError;
+  List<Loadable<Translation>> get translations =>
+      throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$TranslatorStateCopyWith<_TranslatorState> get copyWith =>

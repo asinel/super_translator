@@ -29,12 +29,12 @@ class TranslatorScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: state.translations.length,
               itemBuilder: (context, index) => TranslationCard(
-                initialText: state.translations[index].initialText,
-                translatedText: state.translations[index].translatedText,
-                detectedLanguage: state.translations[index].detectedLanguage,
-                isFavorite: state.translations[index].favoriteId != null,
+                initialText: state.translations[index].data.initialText,
+                translatedText: state.translations[index].data.translatedText,
+                detectedLanguage: state.translations[index].data.detectedLanguage,
+                isFavorite: state.translations[index].data.favoriteId != null,
                 onPressed: () {
-                  if (state.translations[index].favoriteId == null) {
+                  if (state.translations[index].data.favoriteId == null) {
                     context.read<TranslatorCubit>().addToFavorites(index);
                   } else {
                     context.read<TranslatorCubit>().removeFromFavorites(index);

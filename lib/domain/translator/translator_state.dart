@@ -10,6 +10,6 @@ class TranslatorState with _$TranslatorState {
     required Language fromLanguage,
     required Language toLanguage,
     required String text,
-    required List<Translation> translations
+    required List<Loadable<Translation>> translations
   }) = _TranslatorState;
 }

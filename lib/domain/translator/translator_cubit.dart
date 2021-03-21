@@ -4,6 +4,7 @@ import 'package:super_translator/data/favorite/i_favorite_repository.dart';
 import 'package:super_translator/data/model/language.dart';
 import 'package:super_translator/data/model/translation.dart';
 import 'package:super_translator/data/translator/i_translator_repository.dart';
+import 'package:super_translator/domain/model/loadable.dart';
 
 part 'translator_state.dart';
 part 'translator_cubit.freezed.dart';
@@ -27,8 +28,8 @@ class TranslatorCubit extends Cubit<TranslatorState> {
       //Removes favorite status from translation which are not favorite in DB (deleted on favorites screen)
       //TODO proper SQL query with functional-style merging arrays. Current impl performs for O(M * N)
       var newTranslations = state.translations.map((element) =>
-        (element.favoriteId != null && !data.any((dbEl) => dbEl.favoriteId == element.favoriteId)) ?
-          element.copyWith(favoriteId: null) :
+        (element.data.favoriteId != null && !data.any((dbEl) => dbEl.favoriteId == element.data.favoriteId)) ?
+          element.copyWith(data: element.data.copyWith(favoriteId: null)) :
           element
       );
       emit(state.copyWith(translations: newTranslations.toList()));
@@ -66,26 +67,42 @@ class TranslatorCubit extends Cubit<TranslatorState> {
   void textChanged(String text) => emit(state.copyWith(text: text));
 
   void submitText(String text) async {
+    var id = DateTime.now().millisecondsSinceEpoch;
+    var newTranslation = Loadable<Translation>(id, Translation(text, ''), isLoading: true);
+    emit(state.copyWith(translations: [newTranslation, ...state.translations], text: ''));
     try {
       var translated = await translatorRepository.translate(text, state.fromLanguage, state.toLanguage);
-      emit(state.copyWith(translations: [translated, ...state.translations], text: ''));
-    } catch (e) {
-      emit(state.copyWith(translations: [Translation(text, 'Error'), ...state.translations], text: ''));
+      int index = state.translations.indexWhere((element) => element.key == id);
+      var translations = [
+        ...state.translations.getRange(0, index),
+        newTranslation.copyWith(data: translated, isLoading: false),
+        ...state.translations.getRange(index + 1, state.translations.length)
+      ];
+      emit(state.copyWith(translations: translations));
+    } on Exception catch (e) {
+      emit(state.copyWith(translations: [newTranslation.copyWith(error: e, isLoading: false), ...state.translations]));
     }
   }
 
   void addToFavorites(int index) async {
-    var translationWithId = state.translations[index].copyWith(favoriteId: DateTime.now().millisecondsSinceEpoch);
-    await favoriteRepository.insertTranslation(translationWithId);
-    var translations = [...state.translations.getRange(0, index), translationWithId, ...state.translations.getRange(index + 1, state.translations.length)];
+    var translationWithId = state.translations[index].data.copyWith(favoriteId: DateTime.now().millisecondsSinceEpoch);
+    var translations = [
+      ...state.translations.getRange(0, index),
+      state.translations[index].copyWith(data: translationWithId),
+      ...state.translations.getRange(index + 1, state.translations.length)
+    ];
     emit(state.copyWith(text: '', translations: translations));
+    favoriteRepository.insertTranslation(translationWithId);
   }
 
   void removeFromFavorites(int index) async {
-    var translation = state.translations[index];
-    var translationWithoutId = translation.copyWith(favoriteId: null);
-    var translations = [...state.translations.getRange(0, index), translationWithoutId, ...state.translations.getRange(index + 1, state.translations.length)];
-    await favoriteRepository.removeTranslation(translation);
+    favoriteRepository.removeTranslation(state.translations[index].data);
+    var translationWithoutId = state.translations[index].data.copyWith(favoriteId: null);
+    var translations = [
+      ...state.translations.getRange(0, index),
+      state.translations[index].copyWith(data: translationWithoutId),
+      ...state.translations.getRange(index + 1, state.translations.length)
+    ];
     emit(state.copyWith(text: '', translations: translations));
   }
 }
