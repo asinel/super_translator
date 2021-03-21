@@ -18,8 +18,8 @@ class TranslatorScreen extends StatelessWidget {
       },
       builder: (context, state) => Column(
         children: [
-          state.isLoading ? translatorLoadingCard(context, state) :
-            (state.error != null) ? translatorErrorCard(context, state) :
+          state.supportedLanguages.isLoading ? translatorLoadingCard(context, state) :
+            (state.supportedLanguages.error != null) ? translatorErrorCard(context, state) :
             translatorLoadedCard(context, state),
           Padding(
             padding: EdgeInsets.all(8),
@@ -88,7 +88,7 @@ class TranslatorScreen extends StatelessWidget {
                 child: DropdownButton<Language>(
                   value: state.fromLanguage,
                   onChanged: (newValue) => context.read<TranslatorCubit>().changeFromLanguage(newValue!),
-                  items: ([Language.DETECT] + state.supportedLanguages).map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
+                  items: ([Language.DETECT] + state.supportedLanguages.data).map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
                   isExpanded: true,
                 )
               ),
@@ -102,7 +102,7 @@ class TranslatorScreen extends StatelessWidget {
                 child: DropdownButton<Language>(
                   value: state.toLanguage,
                   onChanged: (newValue) => context.read<TranslatorCubit>().changeToLanguage(newValue!),
-                  items: state.supportedLanguages.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
+                  items: state.supportedLanguages.data.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
                   isExpanded: true,
                 )
               ),

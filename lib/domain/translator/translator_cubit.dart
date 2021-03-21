@@ -15,9 +15,7 @@ class TranslatorCubit extends Cubit<TranslatorState> {
   final IFavoriteRepository favoriteRepository;
 
   TranslatorCubit(this.translatorRepository, this.favoriteRepository) : super(TranslatorState(
-      supportedLanguages: [],
-      isLoading: false,
-      error: null,
+      supportedLanguages: Loadable<List<Language>>(0, []),
       fromLanguage: Language.DETECT,
       toLanguage: Language('ru', 'Russian'),
       text: '',
@@ -37,12 +35,12 @@ class TranslatorCubit extends Cubit<TranslatorState> {
   }
 
   void fetchLanguages() async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(supportedLanguages: state.supportedLanguages.copyWith(isLoading: true)));
     try {
       var languages = await translatorRepository.getSupportedLanguages();
-      emit(state.copyWith(isLoading: false, supportedLanguages: languages));
+      emit(state.copyWith(supportedLanguages: Loadable<List<Language>>(languages.hashCode, languages, isLoading: false, error: null)));
     } on Exception catch (e) {
-      emit(state.copyWith(isLoading: false, error: e));
+      emit(state.copyWith(supportedLanguages: state.supportedLanguages.copyWith(error: e, isLoading: false)));
     }
   }
 

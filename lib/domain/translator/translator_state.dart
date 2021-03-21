@@ -4,9 +4,7 @@ part of 'translator_cubit.dart';
 class TranslatorState with _$TranslatorState {
 
   factory TranslatorState({
-    required List<Language> supportedLanguages,
-    required bool isLoading,
-    required Exception? error,
+    required Loadable<List<Language>> supportedLanguages,
     required Language fromLanguage,
     required Language toLanguage,
     required String text,

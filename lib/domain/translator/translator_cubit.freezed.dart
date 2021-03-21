@@ -17,17 +17,13 @@ class _$TranslatorStateTearOff {
   const _$TranslatorStateTearOff();
 
   _TranslatorState call(
-      {required List<Language> supportedLanguages,
-      required bool isLoading,
-      required Exception? error,
+      {required Loadable<List<Language>> supportedLanguages,
       required Language fromLanguage,
       required Language toLanguage,
       required String text,
       required List<Loadable<Translation>> translations}) {
     return _TranslatorState(
       supportedLanguages: supportedLanguages,
-      isLoading: isLoading,
-      error: error,
       fromLanguage: fromLanguage,
       toLanguage: toLanguage,
       text: text,
@@ -41,9 +37,8 @@ const $TranslatorState = _$TranslatorStateTearOff();
 
 /// @nodoc
 mixin _$TranslatorState {
-  List<Language> get supportedLanguages => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  Exception? get error => throw _privateConstructorUsedError;
+  Loadable<List<Language>> get supportedLanguages =>
+      throw _privateConstructorUsedError;
   Language get fromLanguage => throw _privateConstructorUsedError;
   Language get toLanguage => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
@@ -61,14 +56,13 @@ abstract class $TranslatorStateCopyWith<$Res> {
           TranslatorState value, $Res Function(TranslatorState) then) =
       _$TranslatorStateCopyWithImpl<$Res>;
   $Res call(
-      {List<Language> supportedLanguages,
-      bool isLoading,
-      Exception? error,
+      {Loadable<List<Language>> supportedLanguages,
       Language fromLanguage,
       Language toLanguage,
       String text,
       List<Loadable<Translation>> translations});
 
+  $LoadableCopyWith<List<Language>, $Res> get supportedLanguages;
   $LanguageCopyWith<$Res> get fromLanguage;
   $LanguageCopyWith<$Res> get toLanguage;
 }
@@ -85,8 +79,6 @@ class _$TranslatorStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? supportedLanguages = freezed,
-    Object? isLoading = freezed,
-    Object? error = freezed,
     Object? fromLanguage = freezed,
     Object? toLanguage = freezed,
     Object? text = freezed,
@@ -96,15 +88,7 @@ class _$TranslatorStateCopyWithImpl<$Res>
       supportedLanguages: supportedLanguages == freezed
           ? _value.supportedLanguages
           : supportedLanguages // ignore: cast_nullable_to_non_nullable
-              as List<Language>,
-      isLoading: isLoading == freezed
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as Exception?,
+              as Loadable<List<Language>>,
       fromLanguage: fromLanguage == freezed
           ? _value.fromLanguage
           : fromLanguage // ignore: cast_nullable_to_non_nullable
@@ -122,6 +106,14 @@ class _$TranslatorStateCopyWithImpl<$Res>
           : translations // ignore: cast_nullable_to_non_nullable
               as List<Loadable<Translation>>,
     ));
+  }
+
+  @override
+  $LoadableCopyWith<List<Language>, $Res> get supportedLanguages {
+    return $LoadableCopyWith<List<Language>, $Res>(_value.supportedLanguages,
+        (value) {
+      return _then(_value.copyWith(supportedLanguages: value));
+    });
   }
 
   @override
@@ -147,14 +139,14 @@ abstract class _$TranslatorStateCopyWith<$Res>
       __$TranslatorStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<Language> supportedLanguages,
-      bool isLoading,
-      Exception? error,
+      {Loadable<List<Language>> supportedLanguages,
       Language fromLanguage,
       Language toLanguage,
       String text,
       List<Loadable<Translation>> translations});
 
+  @override
+  $LoadableCopyWith<List<Language>, $Res> get supportedLanguages;
   @override
   $LanguageCopyWith<$Res> get fromLanguage;
   @override
@@ -175,8 +167,6 @@ class __$TranslatorStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? supportedLanguages = freezed,
-    Object? isLoading = freezed,
-    Object? error = freezed,
     Object? fromLanguage = freezed,
     Object? toLanguage = freezed,
     Object? text = freezed,
@@ -186,15 +176,7 @@ class __$TranslatorStateCopyWithImpl<$Res>
       supportedLanguages: supportedLanguages == freezed
           ? _value.supportedLanguages
           : supportedLanguages // ignore: cast_nullable_to_non_nullable
-              as List<Language>,
-      isLoading: isLoading == freezed
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as Exception?,
+              as Loadable<List<Language>>,
       fromLanguage: fromLanguage == freezed
           ? _value.fromLanguage
           : fromLanguage // ignore: cast_nullable_to_non_nullable
@@ -219,19 +201,13 @@ class __$TranslatorStateCopyWithImpl<$Res>
 class _$_TranslatorState implements _TranslatorState {
   _$_TranslatorState(
       {required this.supportedLanguages,
-      required this.isLoading,
-      required this.error,
       required this.fromLanguage,
       required this.toLanguage,
       required this.text,
       required this.translations});
 
   @override
-  final List<Language> supportedLanguages;
-  @override
-  final bool isLoading;
-  @override
-  final Exception? error;
+  final Loadable<List<Language>> supportedLanguages;
   @override
   final Language fromLanguage;
   @override
@@ -243,7 +219,7 @@ class _$_TranslatorState implements _TranslatorState {
 
   @override
   String toString() {
-    return 'TranslatorState(supportedLanguages: $supportedLanguages, isLoading: $isLoading, error: $error, fromLanguage: $fromLanguage, toLanguage: $toLanguage, text: $text, translations: $translations)';
+    return 'TranslatorState(supportedLanguages: $supportedLanguages, fromLanguage: $fromLanguage, toLanguage: $toLanguage, text: $text, translations: $translations)';
   }
 
   @override
@@ -253,11 +229,6 @@ class _$_TranslatorState implements _TranslatorState {
             (identical(other.supportedLanguages, supportedLanguages) ||
                 const DeepCollectionEquality()
                     .equals(other.supportedLanguages, supportedLanguages)) &&
-            (identical(other.isLoading, isLoading) ||
-                const DeepCollectionEquality()
-                    .equals(other.isLoading, isLoading)) &&
-            (identical(other.error, error) ||
-                const DeepCollectionEquality().equals(other.error, error)) &&
             (identical(other.fromLanguage, fromLanguage) ||
                 const DeepCollectionEquality()
                     .equals(other.fromLanguage, fromLanguage)) &&
@@ -275,8 +246,6 @@ class _$_TranslatorState implements _TranslatorState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(supportedLanguages) ^
-      const DeepCollectionEquality().hash(isLoading) ^
-      const DeepCollectionEquality().hash(error) ^
       const DeepCollectionEquality().hash(fromLanguage) ^
       const DeepCollectionEquality().hash(toLanguage) ^
       const DeepCollectionEquality().hash(text) ^
@@ -290,20 +259,15 @@ class _$_TranslatorState implements _TranslatorState {
 
 abstract class _TranslatorState implements TranslatorState {
   factory _TranslatorState(
-      {required List<Language> supportedLanguages,
-      required bool isLoading,
-      required Exception? error,
+      {required Loadable<List<Language>> supportedLanguages,
       required Language fromLanguage,
       required Language toLanguage,
       required String text,
       required List<Loadable<Translation>> translations}) = _$_TranslatorState;
 
   @override
-  List<Language> get supportedLanguages => throw _privateConstructorUsedError;
-  @override
-  bool get isLoading => throw _privateConstructorUsedError;
-  @override
-  Exception? get error => throw _privateConstructorUsedError;
+  Loadable<List<Language>> get supportedLanguages =>
+      throw _privateConstructorUsedError;
   @override
   Language get fromLanguage => throw _privateConstructorUsedError;
   @override
