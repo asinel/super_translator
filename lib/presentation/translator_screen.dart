@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:super_translator/data/language_list.dart';
 import 'package:super_translator/data/model/language.dart';
 import 'package:super_translator/domain/translator/translator_cubit.dart';
 
@@ -19,57 +18,9 @@ class TranslatorScreen extends StatelessWidget {
       },
       builder: (context, state) => Column(
         children: [
-          Card(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButton<Language>(
-                          value: state.fromLanguage,
-                          onChanged: (newValue) {
-                            context.read<TranslatorCubit>().changeFromLanguage(newValue!);
-                          },
-                          items: LanguageList.listWithDetect.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
-                          isExpanded: true,
-                        )
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.compare_arrows),
-                        onPressed: state.fromLanguage.code != 'auto' ?
-                            () { context.read<TranslatorCubit>().swapLanguages(); }
-                            : null,
-                      ),
-                      Expanded(
-                        child: DropdownButton<Language>(
-                          value: state.toLanguage,
-                          onChanged: (newValue) {
-                            context.read<TranslatorCubit>().changeToLanguage(newValue!);
-                          },
-                          items: LanguageList.listWithoutDetect.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
-                          isExpanded: true,
-                        )
-                      ),
-                    ],
-                  ),
-                  TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter the text to translate'
-                    ),
-                    onChanged: (text) {
-                      context.read<TranslatorCubit>().textChanged(text);
-                    },
-                    onSubmitted: (text) {
-                      context.read<TranslatorCubit>().submitText(text);
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
+          state.isLoading ? translatorLoadingCard(context, state) :
+            (state.error != null) ? translatorErrorCard(context, state) :
+            translatorLoadedCard(context, state),
           Padding(
             padding: EdgeInsets.all(8),
             child: Text('Translations', style: TextStyle(color: Colors.grey)),
@@ -96,4 +47,79 @@ class TranslatorScreen extends StatelessWidget {
       ),
     );
   }
+
+  final double translatorCardHeight = 128.0;
+
+  Widget translatorLoadingCard(BuildContext context, TranslatorState state) => Card(
+    child: Container(
+      width: double.infinity,
+      height: translatorCardHeight,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  );
+
+  Widget translatorErrorCard(BuildContext context, TranslatorState state) => Card(
+    child: Container(
+      width: double.infinity,
+      height: translatorCardHeight, //same as translatorLoadedCard
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: Icon(Icons.autorenew),
+            onPressed: () => context.read<TranslatorCubit>().fetchLanguages()
+          ),
+          Text('Unknown error. Press renew to try again')
+        ],
+      ),
+    ),
+  );
+
+  Widget translatorLoadedCard(BuildContext context, TranslatorState state) => Card(
+    child: Container(
+      width: double.infinity,
+      height: translatorCardHeight,
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: DropdownButton<Language>(
+                  value: state.fromLanguage,
+                  onChanged: (newValue) => context.read<TranslatorCubit>().changeFromLanguage(newValue!),
+                  items: ([Language.DETECT] + state.supportedLanguages).map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
+                  isExpanded: true,
+                )
+              ),
+              IconButton(
+                icon: Icon(Icons.compare_arrows),
+                onPressed: state.fromLanguage != Language.DETECT ?
+                  () => context.read<TranslatorCubit>().swapLanguages()
+                  : null,
+              ),
+              Expanded(
+                child: DropdownButton<Language>(
+                  value: state.toLanguage,
+                  onChanged: (newValue) => context.read<TranslatorCubit>().changeToLanguage(newValue!),
+                  items: state.supportedLanguages.map((e) => DropdownMenuItem<Language>(value: e, child: Text(e.name))).toList(),
+                  isExpanded: true,
+                )
+              ),
+            ],
+          ),
+          TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              hintText: 'Enter the text to translate'
+            ),
+            onChanged: (text) => context.read<TranslatorCubit>().textChanged(text),
+            onSubmitted: (text) => context.read<TranslatorCubit>().submitText(text),
+          )
+        ],
+      ),
+    ),
+  );
 }

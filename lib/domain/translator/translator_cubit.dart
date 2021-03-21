@@ -13,7 +13,16 @@ class TranslatorCubit extends Cubit<TranslatorState> {
   final ITranslatorRepository translatorRepository;
   final IFavoriteRepository favoriteRepository;
 
-  TranslatorCubit(this.translatorRepository, this.favoriteRepository) : super(TranslatorState(fromLanguage: Language('auto', 'Detect'), toLanguage: Language('ru', 'Russian'), text: '', translations: [])) {
+  TranslatorCubit(this.translatorRepository, this.favoriteRepository) : super(TranslatorState(
+      supportedLanguages: [],
+      isLoading: false,
+      error: null,
+      fromLanguage: Language.DETECT,
+      toLanguage: Language('ru', 'Russian'),
+      text: '',
+      translations: []
+  )) {
+    fetchLanguages();
     this.favoriteRepository.watchTranslations().listen((data) {
       //Removes favorite status from translation which are not favorite in DB (deleted on favorites screen)
       //TODO proper SQL query with functional-style merging arrays. Current impl performs for O(M * N)
@@ -24,6 +33,16 @@ class TranslatorCubit extends Cubit<TranslatorState> {
       );
       emit(state.copyWith(translations: newTranslations.toList()));
     });
+  }
+
+  void fetchLanguages() async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      var languages = await translatorRepository.getSupportedLanguages();
+      emit(state.copyWith(isLoading: false, supportedLanguages: languages));
+    } on Exception catch (e) {
+      emit(state.copyWith(isLoading: false, error: e));
+    }
   }
 
   void changeFromLanguage(Language newLanguage) {

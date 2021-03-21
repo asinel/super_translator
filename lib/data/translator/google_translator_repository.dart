@@ -14,12 +14,22 @@ class GoogleTranslatorRepository extends ITranslatorRepository {
   GoogleTranslatorRepository(this.baseUrl, this.apiKey);
 
   @override
+  Future<List<Language>> getSupportedLanguages() async {
+    await Future.delayed(Duration(seconds: 3));
+    return [
+      Language('en', 'English'),
+      Language('cs', 'Czech'),
+      Language('ru', 'Russian'),
+    ];
+  }
+
+  @override
   Future<Translation> translate(String text, Language from, Language to) async {
     var response = await http.post(
       Uri.parse('$baseUrl/language/translate/v2'),
       body: {
         'q': text,
-        if (from.code != 'auto') 'source': from.code,
+        if (from != Language.DETECT) 'source': from.code,
         'target': to.code,
         'format': 'text',
         'key': apiKey

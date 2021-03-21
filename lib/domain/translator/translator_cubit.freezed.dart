@@ -17,11 +17,17 @@ class _$TranslatorStateTearOff {
   const _$TranslatorStateTearOff();
 
   _TranslatorState call(
-      {required Language fromLanguage,
+      {required List<Language> supportedLanguages,
+      required bool isLoading,
+      required Exception? error,
+      required Language fromLanguage,
       required Language toLanguage,
       required String text,
       required List<Translation> translations}) {
     return _TranslatorState(
+      supportedLanguages: supportedLanguages,
+      isLoading: isLoading,
+      error: error,
       fromLanguage: fromLanguage,
       toLanguage: toLanguage,
       text: text,
@@ -35,6 +41,9 @@ const $TranslatorState = _$TranslatorStateTearOff();
 
 /// @nodoc
 mixin _$TranslatorState {
+  List<Language> get supportedLanguages => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  Exception? get error => throw _privateConstructorUsedError;
   Language get fromLanguage => throw _privateConstructorUsedError;
   Language get toLanguage => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
@@ -51,7 +60,10 @@ abstract class $TranslatorStateCopyWith<$Res> {
           TranslatorState value, $Res Function(TranslatorState) then) =
       _$TranslatorStateCopyWithImpl<$Res>;
   $Res call(
-      {Language fromLanguage,
+      {List<Language> supportedLanguages,
+      bool isLoading,
+      Exception? error,
+      Language fromLanguage,
       Language toLanguage,
       String text,
       List<Translation> translations});
@@ -71,12 +83,27 @@ class _$TranslatorStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? supportedLanguages = freezed,
+    Object? isLoading = freezed,
+    Object? error = freezed,
     Object? fromLanguage = freezed,
     Object? toLanguage = freezed,
     Object? text = freezed,
     Object? translations = freezed,
   }) {
     return _then(_value.copyWith(
+      supportedLanguages: supportedLanguages == freezed
+          ? _value.supportedLanguages
+          : supportedLanguages // ignore: cast_nullable_to_non_nullable
+              as List<Language>,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Exception?,
       fromLanguage: fromLanguage == freezed
           ? _value.fromLanguage
           : fromLanguage // ignore: cast_nullable_to_non_nullable
@@ -119,7 +146,10 @@ abstract class _$TranslatorStateCopyWith<$Res>
       __$TranslatorStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Language fromLanguage,
+      {List<Language> supportedLanguages,
+      bool isLoading,
+      Exception? error,
+      Language fromLanguage,
       Language toLanguage,
       String text,
       List<Translation> translations});
@@ -143,12 +173,27 @@ class __$TranslatorStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? supportedLanguages = freezed,
+    Object? isLoading = freezed,
+    Object? error = freezed,
     Object? fromLanguage = freezed,
     Object? toLanguage = freezed,
     Object? text = freezed,
     Object? translations = freezed,
   }) {
     return _then(_TranslatorState(
+      supportedLanguages: supportedLanguages == freezed
+          ? _value.supportedLanguages
+          : supportedLanguages // ignore: cast_nullable_to_non_nullable
+              as List<Language>,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Exception?,
       fromLanguage: fromLanguage == freezed
           ? _value.fromLanguage
           : fromLanguage // ignore: cast_nullable_to_non_nullable
@@ -172,11 +217,20 @@ class __$TranslatorStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_TranslatorState implements _TranslatorState {
   _$_TranslatorState(
-      {required this.fromLanguage,
+      {required this.supportedLanguages,
+      required this.isLoading,
+      required this.error,
+      required this.fromLanguage,
       required this.toLanguage,
       required this.text,
       required this.translations});
 
+  @override
+  final List<Language> supportedLanguages;
+  @override
+  final bool isLoading;
+  @override
+  final Exception? error;
   @override
   final Language fromLanguage;
   @override
@@ -188,13 +242,21 @@ class _$_TranslatorState implements _TranslatorState {
 
   @override
   String toString() {
-    return 'TranslatorState(fromLanguage: $fromLanguage, toLanguage: $toLanguage, text: $text, translations: $translations)';
+    return 'TranslatorState(supportedLanguages: $supportedLanguages, isLoading: $isLoading, error: $error, fromLanguage: $fromLanguage, toLanguage: $toLanguage, text: $text, translations: $translations)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _TranslatorState &&
+            (identical(other.supportedLanguages, supportedLanguages) ||
+                const DeepCollectionEquality()
+                    .equals(other.supportedLanguages, supportedLanguages)) &&
+            (identical(other.isLoading, isLoading) ||
+                const DeepCollectionEquality()
+                    .equals(other.isLoading, isLoading)) &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)) &&
             (identical(other.fromLanguage, fromLanguage) ||
                 const DeepCollectionEquality()
                     .equals(other.fromLanguage, fromLanguage)) &&
@@ -211,6 +273,9 @@ class _$_TranslatorState implements _TranslatorState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(supportedLanguages) ^
+      const DeepCollectionEquality().hash(isLoading) ^
+      const DeepCollectionEquality().hash(error) ^
       const DeepCollectionEquality().hash(fromLanguage) ^
       const DeepCollectionEquality().hash(toLanguage) ^
       const DeepCollectionEquality().hash(text) ^
@@ -224,11 +289,20 @@ class _$_TranslatorState implements _TranslatorState {
 
 abstract class _TranslatorState implements TranslatorState {
   factory _TranslatorState(
-      {required Language fromLanguage,
+      {required List<Language> supportedLanguages,
+      required bool isLoading,
+      required Exception? error,
+      required Language fromLanguage,
       required Language toLanguage,
       required String text,
       required List<Translation> translations}) = _$_TranslatorState;
 
+  @override
+  List<Language> get supportedLanguages => throw _privateConstructorUsedError;
+  @override
+  bool get isLoading => throw _privateConstructorUsedError;
+  @override
+  Exception? get error => throw _privateConstructorUsedError;
   @override
   Language get fromLanguage => throw _privateConstructorUsedError;
   @override
