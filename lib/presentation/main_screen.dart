@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:super_translator/presentation/favorites_screen.dart';
 import 'package:super_translator/presentation/translator_screen.dart';
 
@@ -9,6 +10,7 @@ class MainScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text('Super Translator'),
+            brightness: Brightness.dark,
           ),
           bottomNavigationBar: TabBar(
             tabs: [
