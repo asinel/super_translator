@@ -16,11 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$TranslationTearOff {
   const _$TranslationTearOff();
 
-  _Translation call(String initialText, String translatedText,
+  _Translation call(String initialText, String translatedText, Language source,
+      Language target,
       {Language? detectedLanguage, int? favoriteId}) {
     return _Translation(
       initialText,
       translatedText,
+      source,
+      target,
       detectedLanguage: detectedLanguage,
       favoriteId: favoriteId,
     );
@@ -34,6 +37,8 @@ const $Translation = _$TranslationTearOff();
 mixin _$Translation {
   String get initialText => throw _privateConstructorUsedError;
   String get translatedText => throw _privateConstructorUsedError;
+  Language get source => throw _privateConstructorUsedError;
+  Language get target => throw _privateConstructorUsedError;
   Language? get detectedLanguage => throw _privateConstructorUsedError;
   int? get favoriteId => throw _privateConstructorUsedError;
 
@@ -50,9 +55,13 @@ abstract class $TranslationCopyWith<$Res> {
   $Res call(
       {String initialText,
       String translatedText,
+      Language source,
+      Language target,
       Language? detectedLanguage,
       int? favoriteId});
 
+  $LanguageCopyWith<$Res> get source;
+  $LanguageCopyWith<$Res> get target;
   $LanguageCopyWith<$Res>? get detectedLanguage;
 }
 
@@ -68,6 +77,8 @@ class _$TranslationCopyWithImpl<$Res> implements $TranslationCopyWith<$Res> {
   $Res call({
     Object? initialText = freezed,
     Object? translatedText = freezed,
+    Object? source = freezed,
+    Object? target = freezed,
     Object? detectedLanguage = freezed,
     Object? favoriteId = freezed,
   }) {
@@ -80,6 +91,14 @@ class _$TranslationCopyWithImpl<$Res> implements $TranslationCopyWith<$Res> {
           ? _value.translatedText
           : translatedText // ignore: cast_nullable_to_non_nullable
               as String,
+      source: source == freezed
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as Language,
+      target: target == freezed
+          ? _value.target
+          : target // ignore: cast_nullable_to_non_nullable
+              as Language,
       detectedLanguage: detectedLanguage == freezed
           ? _value.detectedLanguage
           : detectedLanguage // ignore: cast_nullable_to_non_nullable
@@ -89,6 +108,20 @@ class _$TranslationCopyWithImpl<$Res> implements $TranslationCopyWith<$Res> {
           : favoriteId // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
+  }
+
+  @override
+  $LanguageCopyWith<$Res> get source {
+    return $LanguageCopyWith<$Res>(_value.source, (value) {
+      return _then(_value.copyWith(source: value));
+    });
+  }
+
+  @override
+  $LanguageCopyWith<$Res> get target {
+    return $LanguageCopyWith<$Res>(_value.target, (value) {
+      return _then(_value.copyWith(target: value));
+    });
   }
 
   @override
@@ -113,9 +146,15 @@ abstract class _$TranslationCopyWith<$Res>
   $Res call(
       {String initialText,
       String translatedText,
+      Language source,
+      Language target,
       Language? detectedLanguage,
       int? favoriteId});
 
+  @override
+  $LanguageCopyWith<$Res> get source;
+  @override
+  $LanguageCopyWith<$Res> get target;
   @override
   $LanguageCopyWith<$Res>? get detectedLanguage;
 }
@@ -134,6 +173,8 @@ class __$TranslationCopyWithImpl<$Res> extends _$TranslationCopyWithImpl<$Res>
   $Res call({
     Object? initialText = freezed,
     Object? translatedText = freezed,
+    Object? source = freezed,
+    Object? target = freezed,
     Object? detectedLanguage = freezed,
     Object? favoriteId = freezed,
   }) {
@@ -146,6 +187,14 @@ class __$TranslationCopyWithImpl<$Res> extends _$TranslationCopyWithImpl<$Res>
           ? _value.translatedText
           : translatedText // ignore: cast_nullable_to_non_nullable
               as String,
+      source == freezed
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as Language,
+      target == freezed
+          ? _value.target
+          : target // ignore: cast_nullable_to_non_nullable
+              as Language,
       detectedLanguage: detectedLanguage == freezed
           ? _value.detectedLanguage
           : detectedLanguage // ignore: cast_nullable_to_non_nullable
@@ -160,7 +209,8 @@ class __$TranslationCopyWithImpl<$Res> extends _$TranslationCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Translation implements _Translation {
-  _$_Translation(this.initialText, this.translatedText,
+  _$_Translation(
+      this.initialText, this.translatedText, this.source, this.target,
       {this.detectedLanguage, this.favoriteId});
 
   @override
@@ -168,13 +218,17 @@ class _$_Translation implements _Translation {
   @override
   final String translatedText;
   @override
+  final Language source;
+  @override
+  final Language target;
+  @override
   final Language? detectedLanguage;
   @override
   final int? favoriteId;
 
   @override
   String toString() {
-    return 'Translation(initialText: $initialText, translatedText: $translatedText, detectedLanguage: $detectedLanguage, favoriteId: $favoriteId)';
+    return 'Translation(initialText: $initialText, translatedText: $translatedText, source: $source, target: $target, detectedLanguage: $detectedLanguage, favoriteId: $favoriteId)';
   }
 
   @override
@@ -187,6 +241,10 @@ class _$_Translation implements _Translation {
             (identical(other.translatedText, translatedText) ||
                 const DeepCollectionEquality()
                     .equals(other.translatedText, translatedText)) &&
+            (identical(other.source, source) ||
+                const DeepCollectionEquality().equals(other.source, source)) &&
+            (identical(other.target, target) ||
+                const DeepCollectionEquality().equals(other.target, target)) &&
             (identical(other.detectedLanguage, detectedLanguage) ||
                 const DeepCollectionEquality()
                     .equals(other.detectedLanguage, detectedLanguage)) &&
@@ -200,6 +258,8 @@ class _$_Translation implements _Translation {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(initialText) ^
       const DeepCollectionEquality().hash(translatedText) ^
+      const DeepCollectionEquality().hash(source) ^
+      const DeepCollectionEquality().hash(target) ^
       const DeepCollectionEquality().hash(detectedLanguage) ^
       const DeepCollectionEquality().hash(favoriteId);
 
@@ -211,12 +271,17 @@ class _$_Translation implements _Translation {
 
 abstract class _Translation implements Translation {
   factory _Translation(String initialText, String translatedText,
+      Language source, Language target,
       {Language? detectedLanguage, int? favoriteId}) = _$_Translation;
 
   @override
   String get initialText => throw _privateConstructorUsedError;
   @override
   String get translatedText => throw _privateConstructorUsedError;
+  @override
+  Language get source => throw _privateConstructorUsedError;
+  @override
+  Language get target => throw _privateConstructorUsedError;
   @override
   Language? get detectedLanguage => throw _privateConstructorUsedError;
   @override

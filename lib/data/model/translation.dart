@@ -7,5 +7,5 @@ part 'translation.freezed.dart';
 @freezed
 class Translation with _$Translation {
 
-  factory Translation(String initialText, String translatedText, {Language? detectedLanguage, int? favoriteId}) = _Translation;
+  factory Translation(String initialText, String translatedText, Language source, Language target, {Language? detectedLanguage, int? favoriteId}) = _Translation;
 }

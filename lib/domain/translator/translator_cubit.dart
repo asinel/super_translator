@@ -68,7 +68,7 @@ class TranslatorCubit extends Cubit<TranslatorState> {
 
   void submitText(String text) async {
     var id = DateTime.now().millisecondsSinceEpoch;
-    var newTranslation = Loadable<Translation>(id, Translation(text, ''), isLoading: true);
+    var newTranslation = Loadable<Translation>(id, Translation(text, '', state.fromLanguage, state.toLanguage), isLoading: true);
     emit(state.copyWith(translations: [newTranslation, ...state.translations], text: ''));
     try {
       var translated = await translatorRepository.translate(text, state.fromLanguage, state.toLanguage);
@@ -113,28 +113,28 @@ class TranslatorCubit extends Cubit<TranslatorState> {
   }
 
   void refetchTranslation(int index) async {
-    var newTranslation = state.translations[index].copyWith(error: null, isLoading: true);
-    String text = newTranslation.data.translatedText;
+    var translation = state.translations[index].copyWith(error: null, isLoading: true);
+    String text = translation.data.initialText;
     var translations = [
       ...state.translations.getRange(0, index),
-      newTranslation,
+      translation,
       ...state.translations.getRange(index + 1, state.translations.length)
     ];
     emit(state.copyWith(translations: translations));
     try {
-      var translated = await translatorRepository.translate(text, state.fromLanguage, state.toLanguage);
-      int index = state.translations.indexWhere((element) => element.key == newTranslation.key);
+      var translated = await translatorRepository.translate(text, translation.data.source, translation.data.target);
+      int index = state.translations.indexWhere((element) => element.key == translation.key);
       var translations = [
         ...state.translations.getRange(0, index),
-        newTranslation.copyWith(data: translated, isLoading: false),
+        translation.copyWith(data: translated, isLoading: false),
         ...state.translations.getRange(index + 1, state.translations.length)
       ];
       emit(state.copyWith(translations: translations));
     } on Exception catch (e) {
-      int index = state.translations.indexWhere((element) => element.key == newTranslation.key);
+      int index = state.translations.indexWhere((element) => element.key == translation.key);
       var translations = [
         ...state.translations.getRange(0, index),
-        newTranslation.copyWith(error: e, isLoading: false),
+        translation.copyWith(error: e, isLoading: false),
         ...state.translations.getRange(index + 1, state.translations.length)
       ];
       emit(state.copyWith(translations: translations));

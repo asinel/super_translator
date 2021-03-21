@@ -11,6 +11,8 @@ class Translations extends Table {
   IntColumn get id => integer()();
   TextColumn get initialText => text()();
   TextColumn get translatedText => text()();
+  TextColumn get sourceLanguage => text()();
+  TextColumn get targetLanguage => text()();
 
   @override
   Set<Column> get primaryKey => { id };

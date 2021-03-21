@@ -18,7 +18,9 @@ class DummyTranslatorRepository extends ITranslatorRepository {
   Future<Translation> translate(String text, Language from, Language to) async {
     return Translation(
       text,
-      String.fromCharCodes(text.codeUnits.reversed)
+      String.fromCharCodes(text.codeUnits.reversed),
+      Language('en', 'English'),
+      Language('ru', 'Russian'),
     );
   }
 
