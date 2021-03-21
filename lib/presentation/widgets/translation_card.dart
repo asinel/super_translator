@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:super_translator/data/model/language.dart';
+import 'package:super_translator/data/model/translation.dart';
+import 'package:super_translator/domain/model/loadable.dart';
 
 class TranslationCard extends StatelessWidget {
 
-  final String initialText;
-  final String translatedText;
-  final Language? detectedLanguage;
-  final bool isFavorite;
-  final VoidCallback onPressed;
+  final Loadable<Translation> translation;
+  final VoidCallback? onPressed;
 
-  TranslationCard({required this.initialText, required this.translatedText, required this.detectedLanguage, required this.isFavorite, required this.onPressed});
+  TranslationCard(this.translation, { this.onPressed });
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +21,26 @@ class TranslationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      initialText,
+                      translation.data.initialText,
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(height: 8,),
                     Text(
-                      translatedText,
+                      translation.data.translatedText,
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    if (detectedLanguage != null)
+                    if (translation.data.detectedLanguage != null)
                       SizedBox(height: 16,),
-                    if (detectedLanguage != null)
+                    if (translation.data.detectedLanguage != null)
                       Text(
-                        'Detected language: ${detectedLanguage!.name}',
+                        'Detected language: ${translation.data.detectedLanguage!.name}',
                         style: TextStyle(color: Colors.grey),
                       )
                   ],
                 )
               ),
               IconButton(
-                icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_outline),
+                icon: Icon(translation.data.favoriteId != null ? Icons.favorite : Icons.favorite_outline),
                 onPressed: onPressed
             )
             ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:super_translator/data/model/translation.dart';
 import 'package:super_translator/domain/favorites/favorites_cubit.dart';
+import 'package:super_translator/domain/model/loadable.dart';
 import 'package:super_translator/presentation/widgets/translation_card.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -11,10 +13,7 @@ class FavoritesScreen extends StatelessWidget {
       builder: (context, state) => ListView.builder(
         itemCount: state.translations.length,
         itemBuilder: (context, index) => TranslationCard(
-          initialText: state.translations[index].initialText,
-          translatedText: state.translations[index].translatedText,
-          detectedLanguage: state.translations[index].detectedLanguage,
-          isFavorite: state.translations[index].favoriteId != null,
+          Loadable<Translation>(state.translations[index].hashCode, state.translations[index]),
           onPressed: () {
             context.read<FavoritesCubit>().removeFromFavorite(state.translations[index]);
           }
