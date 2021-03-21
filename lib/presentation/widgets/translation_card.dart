@@ -5,9 +5,10 @@ import 'package:super_translator/domain/model/loadable.dart';
 class TranslationCard extends StatelessWidget {
 
   final Loadable<Translation> translation;
-  final VoidCallback? onPressed;
+  final VoidCallback? onFavoritePressed;
+  final VoidCallback? onRestartPressed;
 
-  TranslationCard(this.translation, { this.onPressed });
+  TranslationCard(this.translation, { this.onFavoritePressed, this.onRestartPressed });
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,15 @@ class TranslationCard extends StatelessWidget {
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(height: 8,),
-                    Text(
-                      translation.data.translatedText,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                    translation.error == null ?
+                      Text(
+                        translation.data.translatedText,
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ) :
+                      Text(
+                        'Unknown error',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
                     if (translation.data.detectedLanguage != null)
                       SizedBox(height: 16,),
                     if (translation.data.detectedLanguage != null)
@@ -39,10 +45,17 @@ class TranslationCard extends StatelessWidget {
                   ],
                 )
               ),
-              IconButton(
-                icon: Icon(translation.data.favoriteId != null ? Icons.favorite : Icons.favorite_outline),
-                onPressed: onPressed
-            )
+              translation.isLoading ?
+                CircularProgressIndicator() :
+                translation.error != null ?
+                  IconButton(
+                    icon: Icon(Icons.autorenew),
+                    onPressed: onRestartPressed
+                  ) :
+                  IconButton(
+                    icon: Icon(translation.data.favoriteId != null ? Icons.favorite : Icons.favorite_outline),
+                    onPressed: onFavoritePressed
+                  )
             ],
           ),
         )

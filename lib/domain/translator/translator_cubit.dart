@@ -80,7 +80,13 @@ class TranslatorCubit extends Cubit<TranslatorState> {
       ];
       emit(state.copyWith(translations: translations));
     } on Exception catch (e) {
-      emit(state.copyWith(translations: [newTranslation.copyWith(error: e, isLoading: false), ...state.translations]));
+      int index = state.translations.indexWhere((element) => element.key == id);
+      var translations = [
+        ...state.translations.getRange(0, index),
+        newTranslation.copyWith(error: e, isLoading: false),
+        ...state.translations.getRange(index + 1, state.translations.length)
+      ];
+      emit(state.copyWith(translations: translations));
     }
   }
 
@@ -104,5 +110,34 @@ class TranslatorCubit extends Cubit<TranslatorState> {
       ...state.translations.getRange(index + 1, state.translations.length)
     ];
     emit(state.copyWith(text: '', translations: translations));
+  }
+
+  void refetchTranslation(int index) async {
+    var newTranslation = state.translations[index].copyWith(error: null, isLoading: true);
+    String text = newTranslation.data.translatedText;
+    var translations = [
+      ...state.translations.getRange(0, index),
+      newTranslation,
+      ...state.translations.getRange(index + 1, state.translations.length)
+    ];
+    emit(state.copyWith(translations: translations));
+    try {
+      var translated = await translatorRepository.translate(text, state.fromLanguage, state.toLanguage);
+      int index = state.translations.indexWhere((element) => element.key == newTranslation.key);
+      var translations = [
+        ...state.translations.getRange(0, index),
+        newTranslation.copyWith(data: translated, isLoading: false),
+        ...state.translations.getRange(index + 1, state.translations.length)
+      ];
+      emit(state.copyWith(translations: translations));
+    } on Exception catch (e) {
+      int index = state.translations.indexWhere((element) => element.key == newTranslation.key);
+      var translations = [
+        ...state.translations.getRange(0, index),
+        newTranslation.copyWith(error: e, isLoading: false),
+        ...state.translations.getRange(index + 1, state.translations.length)
+      ];
+      emit(state.copyWith(translations: translations));
+    }
   }
 }

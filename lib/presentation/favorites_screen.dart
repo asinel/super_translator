@@ -14,7 +14,7 @@ class FavoritesScreen extends StatelessWidget {
         itemCount: state.translations.length,
         itemBuilder: (context, index) => TranslationCard(
           Loadable<Translation>(state.translations[index].hashCode, state.translations[index]),
-          onPressed: () {
+          onFavoritePressed: () {
             context.read<FavoritesCubit>().removeFromFavorite(state.translations[index]);
           }
         )

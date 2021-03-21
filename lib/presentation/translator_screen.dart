@@ -30,13 +30,14 @@ class TranslatorScreen extends StatelessWidget {
               itemCount: state.translations.length,
               itemBuilder: (context, index) => TranslationCard(
                 state.translations[index],
-                onPressed: () {
+                onFavoritePressed: () {
                   if (state.translations[index].data.favoriteId == null) {
                     context.read<TranslatorCubit>().addToFavorites(index);
                   } else {
                     context.read<TranslatorCubit>().removeFromFavorites(index);
                   }
-                }
+                },
+                onRestartPressed: () => context.read<TranslatorCubit>().refetchTranslation(index),
               )
             ),
           )
