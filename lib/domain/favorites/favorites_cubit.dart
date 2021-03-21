@@ -11,7 +11,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   FavoritesCubit(this.favoriteRepository) : super(FavoritesState([])) {
     this.favoriteRepository.watchTranslations().listen((translations) {
-      emit(FavoritesState(translations));
+      emit(FavoritesState(translations.reversed.toList()));
     });
   }
 
