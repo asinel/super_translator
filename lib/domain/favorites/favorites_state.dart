@@ -1,13 +1,7 @@
 part of 'favorites_cubit.dart';
 
+@freezed
+class FavoritesState with _$FavoritesState {
 
-class FavoritesState extends Equatable {
-
-  final List<Translation> translations;
-
-  FavoritesState(this.translations);
-
-  @override
-  List<Object> get props => [translations];
-
+  factory FavoritesState(List<Translation> translations) = _FavoritesState;
 }
