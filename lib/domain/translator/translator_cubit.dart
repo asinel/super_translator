@@ -17,7 +17,7 @@ class TranslatorCubit extends Cubit<TranslatorState> {
   TranslatorCubit(this.translatorRepository, this.favoriteRepository) : super(TranslatorState(
       supportedLanguages: Loadable<List<Language>>(0, []),
       fromLanguage: Language.DETECT,
-      toLanguage: Language('ru', 'Russian'),
+      toLanguage: Language('en', 'English'),
       text: '',
       translations: []
   )) {
